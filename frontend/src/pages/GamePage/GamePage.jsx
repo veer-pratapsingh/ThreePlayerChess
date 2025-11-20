@@ -16,7 +16,7 @@ const GamePage = () => {
     const navigate = useNavigate();
     const { areAllPlayersSet } = usePlayerContext();
     const { gameOver, winner } = useGameContext();
-    const { currentPlayer, error } = useGameState();
+    const { currentPlayer, error, initializeGame } = useGameState();
 
     // Redirect to landing page if players are not set
     useEffect(() => {
@@ -25,7 +25,10 @@ const GamePage = () => {
         }
     }, [areAllPlayersSet, navigate]);
 
-    // Initialize game on mount - removed to prevent infinite loop
+    // Initialize game on mount
+    useEffect(() => {
+        initializeGame();
+    }, []);
 
     // Handle API errors
     useEffect(() => {
