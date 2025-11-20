@@ -7,31 +7,17 @@
     fill: lightgrey;
 }
 
-/* Blue polygons */
-.polygon.blue.light {
-    fill: #d6eaf8;
-}
-
-.polygon.blue.dark {
-    fill: #5dade2;
-}
-
-/* Green polygons */
-.polygon.green.light {
-    fill: #d1f2eb;
-}
-
-.polygon.green.dark {
-    fill: #76d7c4;
-}
-
-/* Red polygons */
+/* Uniform color scheme - light beige/cream tones */
+.polygon.blue.light,
+.polygon.green.light,
 .polygon.red.light {
-    fill: #fadbd8;
+    fill: #f5f5dc;
 }
 
+.polygon.blue.dark,
+.polygon.green.dark,
 .polygon.red.dark {
-    fill: #ec7063;
+    fill: #deb887;
 }
 
 /* Highlighted state */
