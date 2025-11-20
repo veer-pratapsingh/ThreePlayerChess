@@ -1,0 +1,109 @@
+body {
+    height: 100vh;
+}
+
+@font-face {
+    font-family: FreeSerif;
+    src: url('../fonts/FreeSerif.otf');
+}
+
+@font-face {
+    font-family: DejaVuSans;
+    src: url('../fonts/DejaVuSans.ttf');
+}
+
+.blue.light:hover, .blue.dark:hover, .red.light:hover, .red.dark:hover, .green.light:hover, .green.dark:hover {
+    fill: lightgrey;
+}
+
+polygon.highlight {
+    fill: yellow !important;
+    stroke: orange !important;
+    stroke-width: 3 !important;
+}
+
+.polygon.highlight {
+    fill: yellow !important;
+    stroke: orange !important;
+    stroke-width: 3 !important;
+}
+
+.blue.light {
+    fill:  #d6eaf8;
+}
+
+.blue.dark {
+    fill:  #5dade2
+
+}
+
+.green.light {
+    fill:  #d1f2eb
+}
+
+.green.dark {
+    fill: #76d7c4
+}
+
+.red.light {
+    fill:  #fadbd8
+}
+
+.red.dark {
+    fill:  #ec7063
+}
+
+.arialTheme{
+    font-family: 'Arial', sans-serif;
+}
+
+.freeSerifTheme{
+    font-family: 'FreeSerif', sans-serif;
+}
+
+.dejaVuSansTheme{
+    font-family: 'DejaVuSans', sans-serif;
+}
+
+.leftpane {
+    width: 25%;
+    height: 100vh;
+    background-color: rosybrown;
+    padding: 16px;
+}
+
+.middlepane {
+    width: 50%;
+    height: 100vh;
+}
+
+.rightpane {
+    width: 25%;
+    height: 100vh;
+    background-color: rosybrown;
+    padding: 16px;
+}
+
+.gameview {
+    display: flex;
+}
+
+h1{
+    width: 100%;
+}
+
+text {
+    pointer-events: none;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #eee;
+    border: 2px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

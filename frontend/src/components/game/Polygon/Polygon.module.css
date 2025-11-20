@@ -1,0 +1,57 @@
+.polygon {
+    cursor: pointer;
+    transition: fill 0.2s ease;
+}
+
+.polygon:hover {
+    fill: lightgrey;
+}
+
+/* Blue polygons */
+.polygon.blue.light {
+    fill: #d6eaf8;
+}
+
+.polygon.blue.dark {
+    fill: #5dade2;
+}
+
+/* Green polygons */
+.polygon.green.light {
+    fill: #d1f2eb;
+}
+
+.polygon.green.dark {
+    fill: #76d7c4;
+}
+
+/* Red polygons */
+.polygon.red.light {
+    fill: #fadbd8;
+}
+
+.polygon.red.dark {
+    fill: #ec7063;
+}
+
+/* Highlighted state */
+.polygon.highlight {
+    fill: yellow !important;
+    stroke: orange !important;
+    stroke-width: 3 !important;
+}
+
+:global(.highlight) {
+    fill: yellow !important;
+    stroke: orange !important;
+    stroke-width: 3 !important;
+}
+
+/* Polygon labels */
+.label {
+    fill: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    font-weight: bold;
+    pointer-events: none;
+    user-select: none;
+}

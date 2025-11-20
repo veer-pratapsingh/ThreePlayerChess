@@ -1,0 +1,226 @@
+import React, { useEffect, useRef } from 'react';
+
+const GameBoard = ({ onPolygonClick, boardData, highlightedPolygons, theme }) => {
+  const svgRef = useRef();
+
+  const pieceMap = {
+    'R': '♖', 'N': '♘', 'B': '♗', 'Q': '♕', 'K': '♔', 'P': '♙', 'J': '⎈', 'W': '▩'
+  };
+
+  const colorMap = { 'R': 'Red', 'G': 'Green', 'B': 'Blue' };
+
+  useEffect(() => {
+    if (svgRef.current) {
+      updateBoard();
+      displayPossibleMoves();
+    }
+  }, [boardData, highlightedPolygons, theme]);
+
+  const updateBoard = () => {
+    clearBoard();
+    if (boardData) {
+      for (const polygonId in boardData) {
+        const value = boardData[polygonId];
+        const pieceColor = value[0];
+        const pieceToken = value[1];
+        displayPiece(polygonId, pieceToken, pieceColor);
+      }
+    }
+  };
+
+  const displayPossibleMoves = () => {
+    removeHighlighting();
+    if (highlightedPolygons) {
+      highlightedPolygons.forEach(polygonId => {
+        const polygon = svgRef.current.getElementById(polygonId);
+        if (polygon) {
+          polygon.classList.add('highlight');
+        }
+      });
+    }
+  };
+
+  const removeHighlighting = () => {
+    const polygons = svgRef.current.querySelectorAll('polygon');
+    polygons.forEach(polygon => polygon.classList.remove('highlight'));
+  };
+
+  const displayPiece = (polygonId, pieceToken, pieceColor) => {
+    const polygon = svgRef.current.getElementById(polygonId);
+    if (!polygon) return;
+
+    const points = polygon.points;
+    const x = (points.getItem(0).x + points.getItem(2).x) / 2;
+    const y = (points.getItem(0).y + points.getItem(2).y) / 2;
+
+    const textElement = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    textElement.setAttribute('x', x);
+    textElement.setAttribute('y', y);
+    textElement.setAttribute('text-anchor', 'middle');
+    textElement.setAttribute('dominant-baseline', 'middle');
+    textElement.setAttribute('fill', colorMap[pieceColor]);
+    textElement.setAttribute('font-size', '50');
+    textElement.setAttribute('font-weight', 'bold');
+    textElement.setAttribute('class', theme);
+    textElement.textContent = pieceMap[pieceToken];
+
+    polygon.parentNode.insertBefore(textElement, polygon.nextSibling);
+  };
+
+  const clearBoard = () => {
+    const textElements = svgRef.current.querySelectorAll('text');
+    textElements.forEach(textElement => {
+      if (textElement.classList.contains(theme)) {
+        textElement.remove();
+      }
+    });
+  };
+
+  const insertLabels = (polygonId) => {
+    const polygon = svgRef.current.getElementById(polygonId);
+    if (!polygon) return;
+
+    const points = polygon.points;
+    const x = (points.getItem(0).x + points.getItem(2).x) / 2;
+    const y = (points.getItem(0).y + points.getItem(2).y) / 2;
+
+    const textElement = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    textElement.setAttribute('x', x);
+    textElement.setAttribute('y', y);
+    textElement.setAttribute('text-anchor', 'middle');
+    textElement.setAttribute('dominant-baseline', 'middle');
+    textElement.setAttribute('fill', 'rgba(255,255,255,0.8)');
+    textElement.setAttribute('font-size', '14');
+    textElement.setAttribute('font-weight', 'bold');
+    textElement.textContent = polygonId.toUpperCase();
+    polygon.parentNode.insertBefore(textElement, polygon.nextSibling);
+  };
+
+  useEffect(() => {
+    if (svgRef.current) {
+      const polygons = svgRef.current.querySelectorAll('polygon');
+      polygons.forEach(polygon => {
+        insertLabels(polygon.id);
+        polygon.addEventListener('click', () => onPolygonClick(polygon.id));
+      });
+    }
+  }, [onPolygonClick]);
+
+  return (
+    <svg 
+      ref={svgRef}
+      style={{ backgroundColor: '#ffffff' }} 
+      width="100%" 
+      height="90%" 
+      viewBox="0 0 960 831"
+    >
+      {/* All the polygon definitions from the original SVG */}
+      <polygon id="Ga1" className="green light" points="300,0 240,0 210,51.96152422706631 277.5,64.95190528383289"></polygon>
+      <polygon id="Ga2" className="green dark" points="360,0 300,0 277.5,64.95190528383289 345,77.94228634059947"></polygon>
+      <polygon id="Ga3" className="green light" points="420,0 360,0 345,77.94228634059947 412.5,90.93266739736605"></polygon>
+      <polygon id="Ga4" className="green dark" points="480,0 420,0 412.5,90.93266739736605 480,103.92304845413263"></polygon>
+      <polygon id="Rh4" className="red light" points="480,0 540,0 547.5,90.93266739736605 480,103.92304845413263"></polygon>
+      <polygon id="Rh3" className="red dark" points="540,0 600,0 615,77.94228634059947 547.5,90.93266739736605"></polygon>
+      <polygon id="Rh2" className="red light" points="600,0 660,0 682.5,64.95190528383289 615,77.94228634059947"></polygon>
+      <polygon id="Rh1" className="red dark" points="660,0 720,0 750,51.96152422706631 682.5,64.95190528383289"></polygon>
+      <polygon id="Gb1" className="green dark" points="277.5,64.95190528383289 210,51.96152422706631 180,103.92304845413263 255,129.90381056766577"></polygon>
+      <polygon id="Gb2" className="green light" points="345,77.94228634059947 277.5,64.95190528383289 255,129.90381056766577 330,155.88457268119893"></polygon>
+      <polygon id="Gb3" className="green dark" points="412.5,90.93266739736605 345,77.94228634059947 330,155.88457268119893 405,181.8653347947321"></polygon>
+      <polygon id="Gb4" className="green light" points="480,103.92304845413263 412.5,90.93266739736605 405,181.8653347947321 480,207.84609690826525"></polygon>
+      <polygon id="Rg4" className="red dark" points="480,103.92304845413263 547.5,90.93266739736605 555,181.8653347947321 480,207.84609690826525"></polygon>
+      <polygon id="Rg3" className="red light" points="547.5,90.93266739736605 615,77.94228634059947 630,155.88457268119893 555,181.8653347947321"></polygon>
+      <polygon id="Rg2" className="red dark" points="615,77.94228634059947 682.5,64.95190528383289 705,129.90381056766577 630,155.88457268119893"></polygon>
+      <polygon id="Rg1" className="red light" points="682.5,64.95190528383289 750,51.96152422706631 780,103.92304845413263 705,129.90381056766577"></polygon>
+      <polygon id="Gc1" className="green light" points="255,129.90381056766577 180,103.92304845413263 150,155.88457268119893 232.5,194.85571585149864"></polygon>
+      <polygon id="Gc2" className="green dark" points="330,155.88457268119893 255,129.90381056766577 232.5,194.85571585149864 315,233.82685902179838"></polygon>
+      <polygon id="Gc3" className="green light" points="405,181.8653347947321 330,155.88457268119893 315,233.82685902179838 397.5,272.7980021920981"></polygon>
+      <polygon id="Gc4" className="green dark" points="480,207.84609690826525 405,181.8653347947321 397.5,272.7980021920981 480,311.76914536239786"></polygon>
+      <polygon id="Rf4" className="red light" points="480,207.84609690826525 555,181.8653347947321 562.5,272.7980021920981 480,311.76914536239786"></polygon>
+      <polygon id="Rf3" className="red dark" points="555,181.8653347947321 630,155.88457268119893 645,233.82685902179838 562.5,272.7980021920981"></polygon>
+      <polygon id="Rf2" className="red light" points="630,155.88457268119893 705,129.90381056766577 727.5,194.85571585149864 645,233.82685902179838"></polygon>
+      <polygon id="Rf1" className="red dark" points="705,129.90381056766577 780,103.92304845413263 810,155.88457268119893 727.5,194.85571585149864"></polygon>
+      <polygon id="Gd1" className="green dark" points="232.5,194.85571585149864 150,155.88457268119893 120,207.84609690826525 210,259.80762113533154"></polygon>
+      <polygon id="Gd2" className="green light" points="315,233.82685902179838 232.5,194.85571585149864 210,259.80762113533154 300,311.76914536239786"></polygon>
+      <polygon id="Gd3" className="green dark" points="397.5,272.7980021920981 315,233.82685902179838 300,311.76914536239786 390,363.7306695894642"></polygon>
+      <polygon id="Gd4" className="green light" points="480,311.76914536239786 397.5,272.7980021920981 390,363.7306695894642 480,415.6921938165305"></polygon>
+      <polygon id="Re4" className="red dark" points="480,311.76914536239786 562.5,272.7980021920981 570,363.7306695894642 480,415.6921938165305"></polygon>
+      <polygon id="Re3" className="red light" points="562.5,272.7980021920981 645,233.82685902179838 660,311.76914536239786 570,363.7306695894642"></polygon>
+      <polygon id="Re2" className="red dark" points="645,233.82685902179838 727.5,194.85571585149864 750,259.80762113533154 660,311.76914536239786"></polygon>
+      <polygon id="Re1" className="red light" points="727.5,194.85571585149864 810,155.88457268119893 840,207.84609690826525 750,259.80762113533154"></polygon>
+
+      <polygon id="Ra1" className="red light" points="930,467.6537180435967 960,415.6921938165304 930,363.73066958946407 885,415.6921938165304"></polygon>
+      <polygon id="Ra2" className="red dark" points="900,519.615242270663 930,467.6537180435967 885,415.6921938165304 840,467.6537180435967"></polygon>
+      <polygon id="Ra3" className="red light" points="870,571.5767664977293 900,519.615242270663 840,467.6537180435967 795,519.615242270663"></polygon>
+      <polygon id="Ra4" className="red dark" points="840,623.5382907247956 870,571.5767664977293 795,519.615242270663 750,571.5767664977294"></polygon>
+      <polygon id="Bh4" className="blue light" points="840,623.5382907247956 810,675.4998149518619 727.5,636.5286717815623 750,571.5767664977294"></polygon>
+      <polygon id="Bh3" className="blue dark" points="810,675.4998149518619 780,727.4613391789283 705,701.4805770653952 727.5,636.5286717815623"></polygon>
+      <polygon id="Bh2" className="blue light" points="780,727.4613391789283 750,779.4228634059946 682.5,766.432482349228 705,701.4805770653952"></polygon>
+      <polygon id="Bh1" className="blue dark" points="750,779.4228634059946 720,831.3843876330609 660,831.3843876330609 682.5,766.432482349228"></polygon>
+
+      <polygon id="Rb1" className="red dark" points="885,415.6921938165304 930,363.73066958946407 900,311.7691453623978 840,363.7306695894641"></polygon>
+      <polygon id="Rb2" className="red light" points="840,467.6537180435967 885,415.6921938165304 840,363.7306695894641 780,415.69219381653045"></polygon>
+      <polygon id="Rb3" className="red dark" points="795,519.615242270663 840,467.6537180435967 780,415.69219381653045 720,467.65371804359677"></polygon>
+      <polygon id="Rb4" className="red light" points="750,571.5767664977294 795,519.615242270663 720,467.65371804359677 660,519.6152422706631"></polygon>
+      <polygon id="Bg4" className="blue dark" points="750,571.5767664977294 727.5,636.5286717815623 645,597.5575286112626 660,519.6152422706631"></polygon>
+      <polygon id="Bg3" className="blue light" points="727.5,636.5286717815623 705,701.4805770653952 630,675.499814951862 645,597.5575286112626"></polygon>
+      <polygon id="Bg2" className="blue dark" points="705,701.4805770653952 682.5,766.432482349228 615.0000000000001,753.4421012924615 630,675.499814951862"></polygon>
+      <polygon id="Bg1" className="blue light" points="682.5,766.432482349228 660,831.3843876330609 600,831.3843876330609 615.0000000000001,753.4421012924615"></polygon>
+
+      <polygon id="Rc1" className="red light" points="840,363.7306695894641 900,311.7691453623978 870,259.8076211353315 795,311.7691453623978"></polygon>
+      <polygon id="Rc2" className="red dark" points="780,415.69219381653045 840,363.7306695894641 795,311.7691453623978 720,363.7306695894641"></polygon>
+      <polygon id="Rc3" className="red light" points="720,467.65371804359677 780,415.69219381653045 720,363.7306695894641 645,415.69219381653045"></polygon>
+      <polygon id="Rc4" className="red dark" points="660,519.6152422706631 720,467.65371804359677 645,415.69219381653045 570,467.6537180435968"></polygon>
+      <polygon id="Bf4" className="blue light" points="660,519.6152422706631 645,597.5575286112626 562.5,558.5863854409629 570,467.6537180435968"></polygon>
+      <polygon id="Bf3" className="blue dark" points="645,597.5575286112626 630,675.499814951862 555.0000000000001,649.5190528383289 562.5,558.5863854409629"></polygon>
+      <polygon id="Bf2" className="blue light" points="630,675.499814951862 615.0000000000001,753.4421012924615 547.5000000000001,740.4517202356949 555.0000000000001,649.5190528383289"></polygon>
+      <polygon id="Bf1" className="blue dark" points="615.0000000000001,753.4421012924615 600,831.3843876330609 540.0000000000001,831.384387633061 547.5000000000001,740.4517202356949"></polygon>
+
+      <polygon id="Rd1" className="red dark" points="795,311.7691453623978 870,259.8076211353315 839.9999999999999,207.84609690826517 750,259.8076211353315"></polygon>
+      <polygon id="Rd2" className="red light" points="720,363.7306695894641 795,311.7691453623978 750,259.8076211353315 660,311.7691453623978"></polygon>
+      <polygon id="Rd3" className="red dark" points="645,415.69219381653045 720,363.7306695894641 660,311.7691453623978 570,363.7306695894642"></polygon>
+      <polygon id="Rd4" className="red light" points="570,467.6537180435968 645,415.69219381653045 570,363.7306695894642 480,415.6921938165305"></polygon>
+      <polygon id="Be4" className="blue dark" points="570,467.6537180435968 562.5,558.5863854409629 480,519.6152422706631 480,415.6921938165305"></polygon>
+      <polygon id="Be3" className="blue light" points="562.5,558.5863854409629 555.0000000000001,649.5190528383289 480.00000000000006,623.5382907247957 480,519.6152422706631"></polygon>
+      <polygon id="Be2" className="blue dark" points="555.0000000000001,649.5190528383289 547.5000000000001,740.4517202356949 480.00000000000006,727.4613391789285 480.00000000000006,623.5382907247957"></polygon>
+      <polygon id="Be1" className="blue light" points="547.5000000000001,740.4517202356949 540.0000000000001,831.384387633061 480.0000000000001,831.384387633061 480.00000000000006,727.4613391789285"></polygon>
+
+      <polygon id="Ba1" className="blue light" points="210.00000000000023,779.4228634059948 240.00000000000023,831.3843876330611 300.0000000000002,831.3843876330611 277.5000000000002,766.4324823492282"></polygon>
+      <polygon id="Ba2" className="blue dark" points="180.00000000000017,727.4613391789285 210.00000000000023,779.4228634059948 277.5000000000002,766.4324823492282 255.00000000000017,701.4805770653954"></polygon>
+      <polygon id="Ba3" className="blue light" points="150.0000000000001,675.4998149518622 180.00000000000017,727.4613391789285 255.00000000000017,701.4805770653954 232.50000000000014,636.5286717815625"></polygon>
+      <polygon id="Ba4" className="blue dark" points="120.00000000000011,623.538290724796 150.0000000000001,675.4998149518622 232.50000000000014,636.5286717815625 210.0000000000001,571.5767664977295"></polygon>
+      <polygon id="Gh4" className="green light" points="120.00000000000011,623.538290724796 90.00000000000011,571.5767664977296 165.0000000000001,519.6152422706633 210.0000000000001,571.5767664977295"></polygon>
+      <polygon id="Gh3" className="green dark" points="90.00000000000011,571.5767664977296 60.00000000000006,519.6152422706633 120.00000000000006,467.653718043597 165.0000000000001,519.6152422706633"></polygon>
+      <polygon id="Gh2" className="green light" points="60.00000000000006,519.6152422706633 30,467.653718043597 75,415.6921938165307 120.00000000000006,467.653718043597"></polygon>
+      <polygon id="Gh1" className="green dark" points="30,467.653718043597 0,415.6921938165307 30,363.73066958946436 75,415.6921938165307"></polygon>
+
+      <polygon id="Bb1" className="blue dark" points="277.5000000000002,766.4324823492282 300.0000000000002,831.3843876330611 360.0000000000002,831.3843876330611 345.0000000000001,753.4421012924618"></polygon>
+      <polygon id="Bb2" className="blue light" points="255.00000000000017,701.4805770653954 277.5000000000002,766.4324823492282 345.0000000000001,753.4421012924618 330.0000000000001,675.4998149518622"></polygon>
+      <polygon id="Bb3" className="blue dark" points="232.50000000000014,636.5286717815625 255.00000000000017,701.4805770653954 330.0000000000001,675.4998149518622 315.0000000000001,597.5575286112627"></polygon>
+      <polygon id="Bb4" className="blue light" points="210.0000000000001,571.5767664977295 232.50000000000014,636.5286717815625 315.0000000000001,597.5575286112627 300.00000000000006,519.6152422706632"></polygon>
+      <polygon id="Gg4" className="green dark" points="210.0000000000001,571.5767664977295 165.0000000000001,519.6152422706633 240.00000000000003,467.65371804359694 300.00000000000006,519.6152422706632"></polygon>
+      <polygon id="Gg3" className="green light" points="165.0000000000001,519.6152422706633 120.00000000000006,467.653718043597 179.99999999999994,415.6921938165307 240.00000000000003,467.65371804359694"></polygon>
+      <polygon id="Gg2" className="green dark" points="120.00000000000006,467.653718043597 75,415.6921938165307 119.99999999999994,363.73066958946436 179.99999999999994,415.6921938165307"></polygon>
+      <polygon id="Gg1" className="green light" points="75,415.6921938165307 30,363.73066958946436 60,311.76914536239804 119.99999999999994,363.73066958946436"></polygon>
+
+      <polygon id="Bc1" className="blue light" points="345.0000000000001,753.4421012924618 360.0000000000002,831.3843876330611 420.00000000000017,831.3843876330611 412.5000000000001,740.4517202356951"></polygon>
+      <polygon id="Bc2" className="blue dark" points="330.0000000000001,675.4998149518622 345.0000000000001,753.4421012924618 412.5000000000001,740.4517202356951 405.0000000000001,649.519052838329"></polygon>
+      <polygon id="Bc3" className="blue light" points="315.0000000000001,597.5575286112627 330.0000000000001,675.4998149518622 405.0000000000001,649.519052838329 397.50000000000006,558.5863854409629"></polygon>
+      <polygon id="Bc4" className="blue dark" points="300.00000000000006,519.6152422706632 315.0000000000001,597.5575286112627 397.50000000000006,558.5863854409629 390,467.6537180435969"></polygon>
+      <polygon id="Gf4" className="green light" points="300.00000000000006,519.6152422706632 240.00000000000003,467.65371804359694 315,415.69219381653056 390,467.6537180435969"></polygon>
+      <polygon id="Gf3" className="green dark" points="240.00000000000003,467.65371804359694 179.99999999999994,415.6921938165307 239.99999999999994,363.7306695894643 315,415.69219381653056"></polygon>
+      <polygon id="Gf2" className="green light" points="179.99999999999994,415.6921938165307 119.99999999999994,363.73066958946436 164.9999999999999,311.76914536239804 239.99999999999994,363.7306695894643"></polygon>
+      <polygon id="Gf1" className="green dark" points="119.99999999999994,363.73066958946436 60,311.76914536239804 89.99999999999989,259.8076211353317 164.9999999999999,311.76914536239804"></polygon>
+
+      <polygon id="Bd1" className="blue dark" points="412.5000000000001,740.4517202356951 420.00000000000017,831.3843876330611 480.0000000000002,831.3843876330611 480.0000000000001,727.4613391789285"></polygon>
+      <polygon id="Bd2" className="blue light" points="405.0000000000001,649.519052838329 412.5000000000001,740.4517202356951 480.0000000000001,727.4613391789285 480.0000000000001,623.5382907247958"></polygon>
+      <polygon id="Bd3" className="blue dark" points="397.50000000000006,558.5863854409629 405.0000000000001,649.519052838329 480.0000000000001,623.5382907247958 480.00000000000006,519.6152422706632"></polygon>
+      <polygon id="Bd4" className="blue light" points="390,467.6537180435969 397.50000000000006,558.5863854409629 480.00000000000006,519.6152422706632 480,415.6921938165305"></polygon>
+      <polygon id="Ge4" className="green dark" points="390,467.6537180435969 315,415.69219381653056 390,363.73066958946424 480,415.6921938165305"></polygon>
+      <polygon id="Ge3" className="green light" points="315,415.69219381653056 239.99999999999994,363.7306695894643 299.99999999999994,311.7691453623979 390,363.73066958946424"></polygon>
+      <polygon id="Ge2" className="green dark" points="239.99999999999994,363.7306695894643 164.9999999999999,311.76914536239804 209.9999999999999,259.80762113533166 299.99999999999994,311.7691453623979"></polygon>
+      <polygon id="Ge1" className="green light" points="164.9999999999999,311.76914536239804 89.99999999999989,259.8076211353317 119.99999999999989,207.84609690826534 209.9999999999999,259.80762113533166"></polygon>
+    </svg>
+  );
+};
+
+export default GameBoard;

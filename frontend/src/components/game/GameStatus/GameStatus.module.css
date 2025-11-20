@@ -1,0 +1,54 @@
+.container {
+    padding: 16px;
+    height: 100%;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+}
+
+.playerInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.playerDisplay {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.playerName {
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+    margin: 0;
+}
+
+.kingIcon {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.kingIcon.blue {
+    color: #5dade2;
+}
+
+.kingIcon.green {
+    color: #76d7c4;
+}
+
+.kingIcon.red {
+    color: #ec7063;
+}

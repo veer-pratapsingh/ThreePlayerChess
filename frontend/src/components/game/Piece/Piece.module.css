@@ -1,0 +1,38 @@
+.piece {
+    font-size: 50px;
+    font-weight: bold;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Color styles with distinct colors and good contrast */
+.piece.blue {
+    fill: #1e3a8a;
+    stroke: #bfdbfe;
+    stroke-width: 1.5;
+}
+
+.piece.green {
+    fill: #166534;
+    stroke: #bbf7d0;
+    stroke-width: 1.5;
+}
+
+.piece.red {
+    fill: #991b1b;
+    stroke: #fecaca;
+    stroke-width: 1.5;
+}
+
+/* Theme styles */
+.piece.arialTheme {
+    font-family: 'Arial', sans-serif;
+}
+
+.piece.freeSerifTheme {
+    font-family: 'FreeSerif', sans-serif;
+}
+
+.piece.dejaVuSansTheme {
+    font-family: 'DejaVuSans', sans-serif;
+}
