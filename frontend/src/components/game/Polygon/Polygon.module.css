@@ -11,17 +11,22 @@
     stroke-width: 2;
 }
 
-/* Uniform color scheme - light beige/cream tones */
+/* Board color themes using CSS variables */
+:root {
+    --board-light: #f5f5dc;
+    --board-dark: #deb887;
+}
+
 .polygon.blue.light,
 .polygon.green.light,
 .polygon.red.light {
-    fill: #f5f5dc;
+    fill: var(--board-light);
 }
 
 .polygon.blue.dark,
 .polygon.green.dark,
 .polygon.red.dark {
-    fill: #deb887;
+    fill: var(--board-dark);
 }
 
 /* Highlighted state */

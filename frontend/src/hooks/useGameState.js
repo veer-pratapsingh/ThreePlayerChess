@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useGameContext } from '../context/GameContext';
 import gameService from '../services/gameService';
+import { soundManager } from '../utils/sounds';
 
 export const useGameState = () => {
     const {
@@ -53,6 +54,15 @@ export const useGameState = () => {
 
             // Update board state
             console.log('Updating board state:', response.board);
+            
+            // Play sound effect
+            const wasCapture = Object.keys(boardState).length > Object.keys(response.board).length;
+            if (wasCapture) {
+                soundManager.playCapture();
+            } else {
+                soundManager.playMove();
+            }
+            
             updateBoardState(response.board);
 
             // Update highlighted moves

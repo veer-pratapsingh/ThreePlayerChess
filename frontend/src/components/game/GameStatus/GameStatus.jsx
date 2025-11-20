@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePlayerContext } from '../../../context/PlayerContext';
 import { useGameContext } from '../../../context/GameContext';
 import { COLOR_MAP } from '../../../utils/constants';
 import Button from '../../common/Button/Button';
+import { soundManager } from '../../../utils/sounds';
 import styles from './GameStatus.module.css';
 
 /**
@@ -15,6 +16,7 @@ const GameStatus = ({ currentPlayer }) => {
     const navigate = useNavigate();
     const { players, clearPlayers } = usePlayerContext();
     const { resetGame } = useGameContext();
+    const [soundEnabled, setSoundEnabled] = useState(true);
     
     const getKingImage = (colorCode) => {
         const colorMap = { 'R': 'w', 'G': 'g', 'B': 'b' };
@@ -44,6 +46,15 @@ const GameStatus = ({ currentPlayer }) => {
                 </div>
             </div>
             <div className={styles.actions}>
+                <Button 
+                    onClick={() => {
+                        const enabled = soundManager.toggle();
+                        setSoundEnabled(enabled);
+                    }}
+                    variant="secondary"
+                >
+                    Sound: {soundEnabled ? 'ON' : 'OFF'}
+                </Button>
                 <Button 
                     onClick={() => {
                         resetGame();

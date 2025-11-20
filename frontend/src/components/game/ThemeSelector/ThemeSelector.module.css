@@ -10,31 +10,49 @@
     font-size: 24px;
 }
 
-.form {
+.themeGrid {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-.radioGroup {
+.themeOption {
     display: flex;
     align-items: center;
-    gap: 10px;
-}
-
-.radio {
-    width: 18px;
-    height: 18px;
+    gap: 12px;
+    padding: 8px;
+    border: 2px solid transparent;
+    border-radius: 8px;
     cursor: pointer;
+    transition: border-color 0.2s;
 }
 
-.label {
+.themeOption:hover {
+    border-color: #ddd;
+}
+
+.themeOption.selected {
+    border-color: #5dade2;
+}
+
+.colorPreview {
+    display: flex;
+    width: 40px;
+    height: 20px;
+    border: 1px solid #ccc;
+}
+
+.lightSquare {
+    width: 50%;
+    height: 100%;
+}
+
+.darkSquare {
+    width: 50%;
+    height: 100%;
+}
+
+.themeName {
     font-size: 16px;
-    cursor: pointer;
-    user-select: none;
     color: #333;
-}
-
-.label:hover {
-    color: #5dade2;
 }
