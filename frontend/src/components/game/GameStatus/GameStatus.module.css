@@ -52,3 +52,9 @@
 .kingIcon.red {
     color: #ec7063;
 }
+
+.actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}

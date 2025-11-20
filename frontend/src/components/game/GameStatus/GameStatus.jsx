@@ -1,6 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { usePlayerContext } from '../../../context/PlayerContext';
+import { useGameContext } from '../../../context/GameContext';
 import { COLOR_MAP } from '../../../utils/constants';
+import Button from '../../common/Button/Button';
 import styles from './GameStatus.module.css';
 
 /**
@@ -9,7 +12,9 @@ import styles from './GameStatus.module.css';
  * @param {string} props.currentPlayer - Current player color code ('R', 'G', 'B')
  */
 const GameStatus = ({ currentPlayer }) => {
-    const { players } = usePlayerContext();
+    const navigate = useNavigate();
+    const { players, clearPlayers } = usePlayerContext();
+    const { resetGame } = useGameContext();
 
     const colorName = COLOR_MAP[currentPlayer] || 'Unknown';
     const playerName = players[colorName] || 'Unknown';
@@ -26,6 +31,18 @@ const GameStatus = ({ currentPlayer }) => {
             ■
           </span>
                 </div>
+            </div>
+            <div className={styles.actions}>
+                <Button 
+                    onClick={() => {
+                        resetGame();
+                        clearPlayers();
+                        navigate('/');
+                    }}
+                    variant="secondary"
+                >
+                    End Game
+                </Button>
             </div>
         </div>
     );
