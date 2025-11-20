@@ -79,9 +79,7 @@ public class Board {
         // place PAWN - including positions A2 and H2 (columns 0 and 7)
         for(int i = 0; i<8; i++){
             Position ithPawnPosition = Position.get(colour,1,i);
-            BasePiece pawn = PieceFactory.createPiece("Pawn",colour);
-            boardMap.put(ithPawnPosition, pawn);
-            System.out.println("Placed pawn at: " + ithPawnPosition + " = " + pawn.toString());
+            boardMap.put(ithPawnPosition, PieceFactory.createPiece("Pawn",colour));
         }
     }
 

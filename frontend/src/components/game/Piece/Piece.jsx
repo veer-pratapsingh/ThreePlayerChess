@@ -14,12 +14,13 @@ const Piece = ({ polygonId, pieceCode, points }) => {
     const colorCode = pieceCode[0]; // R, G, or B
     const pieceType = pieceCode[1]; // R, N, B, Q, K, P, J, W
     
-    console.log('Rendering piece:', { polygonId, pieceCode, colorCode, pieceType });
-
     const { x, y } = getPolygonCenter(points);
     const imageSrc = getPieceImage(colorCode, pieceType);
 
-    if (!imageSrc) return null;
+    if (!imageSrc) {
+        console.log('No image source for:', polygonId, pieceCode);
+        return null;
+    }
 
     return (
         <image
@@ -43,17 +44,12 @@ const getPieceImage = (colorCode, pieceType) => {
     const color = colorMap[colorCode];
     const piece = pieceMap[pieceType];
     
-    console.log('Piece mapping:', { colorCode, pieceType, color, piece });
-    
-    if (!color || !piece) {
-        console.log('Missing mapping for:', { colorCode, pieceType });
-        return null;
-    }
+    if (!color || !piece) return null;
     
     try {
         return require(`../../../images/${piece}-${color}.png`);
     } catch (error) {
-        console.error('Failed to load image:', `${piece}-${color}.png`, error);
+        console.error('Image not found:', `${piece}-${color}.png`);
         return null;
     }
 };
