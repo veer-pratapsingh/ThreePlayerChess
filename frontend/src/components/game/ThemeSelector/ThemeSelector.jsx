@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import Button from '../../common/Button/Button';
 import styles from './ThemeSelector.module.css';
 
 /**
- * Theme Selector Component - Left panel for selecting board colors
+ * Theme Selector Component - Collapsible board color selector
  */
 const ThemeSelector = () => {
     const [selectedTheme, setSelectedTheme] = useState('classic');
+    const [isOpen, setIsOpen] = useState(false);
 
     const boardThemes = [
         { id: 'classic', name: 'Classic', light: '#f5f5dc', dark: '#deb887' },
@@ -18,26 +20,36 @@ const ThemeSelector = () => {
         setSelectedTheme(theme.id);
         document.documentElement.style.setProperty('--board-light', theme.light);
         document.documentElement.style.setProperty('--board-dark', theme.dark);
+        setIsOpen(false);
     };
 
     return (
         <div className={styles.container}>
-            <h2 className={styles.title}>Board Colors</h2>
-            <div className={styles.themeGrid}>
-                {boardThemes.map((theme) => (
-                    <div 
-                        key={theme.id} 
-                        className={`${styles.themeOption} ${selectedTheme === theme.id ? styles.selected : ''}`}
-                        onClick={() => handleThemeChange(theme)}
-                    >
-                        <div className={styles.colorPreview}>
-                            <div className={styles.lightSquare} style={{ backgroundColor: theme.light }}></div>
-                            <div className={styles.darkSquare} style={{ backgroundColor: theme.dark }}></div>
+            <Button 
+                onClick={() => setIsOpen(!isOpen)}
+                variant="secondary"
+                className={styles.toggleButton}
+            >
+                Board Colors {isOpen ? '▲' : '▼'}
+            </Button>
+            
+            {isOpen && (
+                <div className={styles.themeGrid}>
+                    {boardThemes.map((theme) => (
+                        <div 
+                            key={theme.id} 
+                            className={`${styles.themeOption} ${selectedTheme === theme.id ? styles.selected : ''}`}
+                            onClick={() => handleThemeChange(theme)}
+                        >
+                            <div className={styles.colorPreview}>
+                                <div className={styles.lightSquare} style={{ backgroundColor: theme.light }}></div>
+                                <div className={styles.darkSquare} style={{ backgroundColor: theme.dark }}></div>
+                            </div>
+                            <span className={styles.themeName}>{theme.name}</span>
                         </div>
-                        <span className={styles.themeName}>{theme.name}</span>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

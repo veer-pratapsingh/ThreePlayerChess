@@ -2,7 +2,7 @@
 echo Starting Three Player Chess Application...
 
 REM Start backend in new window
-start "Backend Server" cmd /k "cd /d %~dp0 && gradlew.bat :webapp:bootRun"
+start "Backend Server" cmd /k "cd /d %~dp0 && gradlew.bat :backend:bootRun"
 
 REM Wait 5 seconds for backend to start
 timeout /t 5 /nobreak >nul

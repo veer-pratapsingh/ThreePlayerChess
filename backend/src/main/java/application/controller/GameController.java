@@ -14,7 +14,7 @@ import java.util.Map;
  * New game instances are created here.
  **/
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3001")
 public class GameController {
     private IGameInterface game;
 
@@ -69,6 +69,5 @@ public class GameController {
         }
         return game.getBoard();
     }
-
 
 }

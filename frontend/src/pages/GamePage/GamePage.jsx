@@ -15,7 +15,7 @@ import styles from './GamePage.module.css';
 const GamePage = () => {
     const navigate = useNavigate();
     const { areAllPlayersSet } = usePlayerContext();
-    const { gameOver, winner } = useGameContext();
+    const { gameOver, winner, resetGame } = useGameContext();
     const { currentPlayer, error, initializeGame } = useGameState();
 
     // Redirect to landing page if players are not set
@@ -39,19 +39,14 @@ const GamePage = () => {
     }, [error]);
 
     const handleCloseGameOver = () => {
-        // Just close the modal, allow users to review the final board state
+        resetGame();
     };
 
     return (
         <div className={styles.container}>
-            {/* Left Panel - Theme Selector */}
-            <div className={styles.leftPanel}>
-                <ThemeSelector />
-            </div>
-
-            {/* Middle Panel - Chess Board */}
-            <div className={styles.middlePanel}>
-                <h1 className={styles.title}>Three Player Chess Application</h1>
+            {/* Main Panel - Chess Board */}
+            <div className={styles.mainPanel}>
+                <h1 className={styles.title}>THREE PLAYER CHESS GAME</h1>
                 <div className={styles.boardWrapper}>
                     <ChessBoard />
                 </div>
@@ -59,6 +54,7 @@ const GamePage = () => {
 
             {/* Right Panel - Game Status */}
             <div className={styles.rightPanel}>
+                <ThemeSelector />
                 <GameStatus currentPlayer={currentPlayer} />
             </div>
 

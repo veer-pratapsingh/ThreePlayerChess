@@ -34,11 +34,9 @@ public class PieceFactory {
             case "rook":
                 return new Rook(colour);
             case "pawn":
-                return new Pawn(colour);
             case "jester":
-                return new Jester(colour);
             case "wall":
-                return new Wall(colour);
+                return new Pawn(colour);
             default:
                 throw new IllegalArgumentException("Invalid chess piece type: " + type);
         }

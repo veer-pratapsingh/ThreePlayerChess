@@ -1,7 +1,7 @@
 .button {
-    padding: 10px 20px;
+    padding: 12px 24px;
     border: none;
-    border-radius: 4px;
+    border-radius: 12px;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
@@ -12,44 +12,49 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.3);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 .button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 .button:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Variants */
 .primary {
-    background-color: #5dade2;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
 }
 
 .primary:hover {
-    background-color: #3498db;
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
 }
 
 .secondary {
-    background-color: #76d7c4;
+    background: linear-gradient(135deg, #76d7c4 0%, #48c9b0 100%);
     color: white;
 }
 
 .secondary:hover {
-    background-color: #48c9b0;
+    background: linear-gradient(135deg, #68c9b2 0%, #3fb89e 100%);
 }
 
 .danger {
-    background-color: #ec7063;
+    background: linear-gradient(135deg, #ec7063 0%, #e74c3c 100%);
     color: white;
 }
 
 .danger:hover {
-    background-color: #e74c3c;
+    background: linear-gradient(135deg, #e85a51 0%, #d63031 100%);
 }
 
 /* Sizes */

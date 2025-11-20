@@ -128,14 +128,7 @@ public class Board {
                 }
             }
 
-            if(taken !=null){
-                // jester switch position with other piece
-                if (mover instanceof Jester){
-                    // switch places
-                    boardMap.put(end,mover);
-                    boardMap.put(start, taken);
-                }
-            }
+
 
             for(Colour c: Colour.values()) {
                 if(c!=turn) {
@@ -247,8 +240,7 @@ public class Board {
 
         for(Position position: boardMap.keySet()) {
             BasePiece piece = boardMap.get(position);
-            // wall and jester piece have no power to take out any piece
-            if(piece.getColour() != colour && !(piece instanceof Jester) && !(piece instanceof Wall)) {
+            if(piece.getColour() != colour) {
                 Set<Position> possibleTargetPositions = piece.getHighlightPolygons(boardMap, position);
                 if(possibleTargetPositions.contains(kingPosition)) {
                     Log.d(TAG, "Piece "+piece+" is attacking King of colour "+colour);

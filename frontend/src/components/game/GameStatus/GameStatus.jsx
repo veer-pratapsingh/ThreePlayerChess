@@ -5,6 +5,7 @@ import { useGameContext } from '../../../context/GameContext';
 import { COLOR_MAP } from '../../../utils/constants';
 import Button from '../../common/Button/Button';
 import { soundManager } from '../../../utils/sounds';
+
 import styles from './GameStatus.module.css';
 
 /**
@@ -19,10 +20,10 @@ const GameStatus = ({ currentPlayer }) => {
     const [soundEnabled, setSoundEnabled] = useState(true);
     
     const getKingImage = (colorCode) => {
-        const colorMap = { 'R': 'w', 'G': 'g', 'B': 'b' };
+        const colorMap = { 'R': 'red', 'G': 'green', 'B': 'blue' };
         const color = colorMap[colorCode];
         if (!color) return null;
-        return require(`../../../images/king-${color}.png`);
+        return require(`../../../assets/pieces/king-${color}.svg`);
     };
 
     const colorName = COLOR_MAP[currentPlayer] || 'Unknown';
@@ -45,6 +46,7 @@ const GameStatus = ({ currentPlayer }) => {
                     )}
                 </div>
             </div>
+
             <div className={styles.actions}>
                 <Button 
                     onClick={() => {

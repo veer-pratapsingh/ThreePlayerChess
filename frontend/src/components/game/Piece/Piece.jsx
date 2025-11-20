@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Piece.module.css';
 
 /**
- * Piece Component - Renders a chess piece on the board
+ * Piece Component - Renders a chess piece on the board using SVG images
  * @param {Object} props
  * @param {string} props.polygonId - ID of the polygon where piece is located
  * @param {string} props.pieceCode - Two character code (e.g., "BR" = Blue Rook)
@@ -13,12 +13,12 @@ const Piece = ({ polygonId, pieceCode, points }) => {
 
     const colorCode = pieceCode[0]; // R, G, or B
     const pieceType = pieceCode[1]; // R, N, B, Q, K, P, J, W
-    
-    const { x, y } = getPolygonCenter(points);
-    const imageSrc = getPieceImage(colorCode, pieceType);
 
-    if (!imageSrc) {
-        console.log('No image source for:', polygonId, pieceCode);
+    const { x, y } = getPolygonCenter(points);
+    const svgSrc = getPieceSVG(colorCode, pieceType);
+
+    if (!svgSrc) {
+        console.log('No SVG found for:', polygonId, pieceCode);
         return null;
     }
 
@@ -28,18 +28,18 @@ const Piece = ({ polygonId, pieceCode, points }) => {
             y={y - 20}
             width="40"
             height="40"
-            href={imageSrc}
+            href={svgSrc}
             className={styles.piece}
         />
     );
 };
 
 /**
- * Helper function to get piece image path
+ * Helper function to get piece SVG path
  */
-const getPieceImage = (colorCode, pieceType) => {
-    const colorMap = { 'R': 'w', 'G': 'g', 'B': 'b' };
-    const pieceMap = { 'R': 'rook', 'N': 'knight', 'B': 'bishop', 'Q': 'queen', 'K': 'king', 'P': 'pawn' };
+const getPieceSVG = (colorCode, pieceType) => {
+    const colorMap = { 'R': 'red', 'G': 'green', 'B': 'blue' };
+    const pieceMap = { 'R': 'rook', 'N': 'knight', 'B': 'bishop', 'Q': 'queen', 'K': 'king', 'P': 'pawn', 'J': 'pawn', 'W': 'pawn' };
     
     const color = colorMap[colorCode];
     const piece = pieceMap[pieceType];
@@ -47,12 +47,14 @@ const getPieceImage = (colorCode, pieceType) => {
     if (!color || !piece) return null;
     
     try {
-        return require(`../../../images/${piece}-${color}.png`);
+        return require(`../../../assets/pieces/${piece}-${color}.svg`);
     } catch (error) {
-        console.error('Image not found:', `${piece}-${color}.png`);
+        console.error('SVG not found:', `${piece}-${color}.svg`);
         return null;
     }
 };
+
+
 
 /**
  * Helper function to calculate polygon center from points string

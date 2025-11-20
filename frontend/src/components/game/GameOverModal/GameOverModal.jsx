@@ -22,6 +22,7 @@ const GameOverModal = ({ isOpen, winner, onClose }) => {
     const colorClass = colorName ? colorName.toLowerCase() : 'unknown';
 
     const handleNewGame = () => {
+        onClose(); // Reset game state first
         navigate('/');
     };
 

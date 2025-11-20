@@ -15,6 +15,7 @@ export const useGameState = () => {
         selectPiece,
         clearSelection,
         endGame,
+
     } = useGameContext();
 
     const [loading, setLoading] = useState(false);
@@ -55,8 +56,11 @@ export const useGameState = () => {
             // Update board state
             console.log('Updating board state:', response.board);
             
-            // Play sound effect
-            const wasCapture = Object.keys(boardState).length > Object.keys(response.board).length;
+            // Check for captures and play sound effect
+            const oldPieces = Object.entries(boardState);
+            const newPieces = Object.entries(response.board);
+            const wasCapture = oldPieces.length > newPieces.length;
+            
             if (wasCapture) {
                 soundManager.playCapture();
             } else {
@@ -93,7 +97,7 @@ export const useGameState = () => {
         } finally {
             setLoading(false);
         }
-    }, [updateBoardState, updateHighlightedMoves, selectPiece, clearSelection, updateCurrentPlayer, endGame]);
+    }, [updateBoardState, updateHighlightedMoves, selectPiece, clearSelection, updateCurrentPlayer, endGame, boardState]);
 
     return {
         boardState,

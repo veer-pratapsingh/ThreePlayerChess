@@ -15,6 +15,20 @@ const PlayerInput = ({ color, value, onChange, error, placeholder }) => {
         onChange(color, e.target.value);
     };
 
+    const getKingImage = () => {
+        const colorMap = { 'Blue': 'blue', 'Green': 'green', 'Red': 'red' };
+        const colorCode = colorMap[color];
+        if (!colorCode) return null;
+        
+        try {
+            return require(`../../../assets/pieces/king-${colorCode}.svg`);
+        } catch (error) {
+            return null;
+        }
+    };
+
+    const kingImage = getKingImage();
+
     return (
         <div className={styles.inputContainer}>
             <label htmlFor={`player-${color}`} className={styles.label}>
@@ -30,9 +44,17 @@ const PlayerInput = ({ color, value, onChange, error, placeholder }) => {
                     placeholder={placeholder || `Enter ${color} player name`}
                     maxLength={20}
                 />
-                <span className={`${styles.kingIcon} ${styles[color.toLowerCase()]}`}>
-          ♔
-        </span>
+                {kingImage ? (
+                    <img 
+                        src={kingImage} 
+                        alt={`${color} King`}
+                        className={styles.kingIcon}
+                    />
+                ) : (
+                    <span className={`${styles.kingIcon} ${styles[color.toLowerCase()]}`}>
+                        ♔
+                    </span>
+                )}
             </div>
             {error && <span className={styles.errorMessage}>{error}</span>}
         </div>

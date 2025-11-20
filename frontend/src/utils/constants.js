@@ -8,8 +8,8 @@ export const PIECE_MAP = {
     Q: '♕', // Queen
     K: '♔', // King
     P: '♙', // Pawn
-    J: '⎈', // Jester (custom piece)
-    W: '▩', // Wall (custom piece)
+    J: '♙', // Pawn (was Jester)
+    W: '♙', // Pawn (was Wall)
 };
 
 /**

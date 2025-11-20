@@ -1,4 +1,3 @@
 rootProject.name = 'Coding-Ninjas-Chess'
-include 'webapp'
 include 'backend'
 

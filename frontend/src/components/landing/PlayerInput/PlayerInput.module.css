@@ -42,20 +42,8 @@
 }
 
 .kingIcon {
-    font-size: 32px;
-    font-weight: bold;
-}
-
-.kingIcon.blue {
-    color: #5dade2;
-}
-
-.kingIcon.green {
-    color: #76d7c4;
-}
-
-.kingIcon.red {
-    color: #ec7063;
+    width: 32px;
+    height: 32px;
 }
 
 .errorMessage {

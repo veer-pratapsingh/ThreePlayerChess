@@ -10,9 +10,12 @@ export const GameProvider = ({ children }) => {
     const [gameOver, setGameOver] = useState(false);
     const [winner, setWinner] = useState(null);
 
+
     const updateBoardState = (newBoard) => {
         setBoardState(newBoard);
     };
+
+
 
     const updateCurrentPlayer = (player) => {
         setCurrentPlayer(player);
@@ -43,6 +46,7 @@ export const GameProvider = ({ children }) => {
         setSelectedPiece(null);
         setGameOver(false);
         setWinner(null);
+
     };
 
     return (
@@ -54,6 +58,7 @@ export const GameProvider = ({ children }) => {
                 selectedPiece,
                 gameOver,
                 winner,
+
                 updateBoardState,
                 updateCurrentPlayer,
                 updateHighlightedMoves,
@@ -61,6 +66,7 @@ export const GameProvider = ({ children }) => {
                 clearSelection,
                 endGame,
                 resetGame,
+
             }}
         >
             {children}
