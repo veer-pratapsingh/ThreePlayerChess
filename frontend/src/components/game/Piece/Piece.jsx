@@ -1,6 +1,4 @@
 import React from 'react';
-import { PIECE_MAP, COLOR_MAP } from '../../../utils/constants';
-import { useTheme } from '../../../hooks/useTheme';
 import styles from './Piece.module.css';
 
 /**
@@ -11,37 +9,53 @@ import styles from './Piece.module.css';
  * @param {string} props.points - Polygon points to calculate center position
  */
 const Piece = ({ polygonId, pieceCode, points }) => {
-    const { currentTheme } = useTheme();
-
     if (!pieceCode || pieceCode.length < 2) return null;
 
     const colorCode = pieceCode[0]; // R, G, or B
     const pieceType = pieceCode[1]; // R, N, B, Q, K, P, J, W
-
-    const colorName = COLOR_MAP[colorCode];
-    const pieceSymbol = PIECE_MAP[pieceType] || '?';
+    
+    console.log('Rendering piece:', { polygonId, pieceCode, colorCode, pieceType });
 
     const { x, y } = getPolygonCenter(points);
+    const imageSrc = getPieceImage(colorCode, pieceType);
 
-    const pieceClasses = [
-        styles.piece,
-        styles[colorName.toLowerCase()],
-        styles[currentTheme],
-    ]
-        .filter(Boolean)
-        .join(' ');
+    if (!imageSrc) return null;
 
     return (
-        <text
-            x={x}
-            y={y}
-            className={pieceClasses}
-            textAnchor="middle"
-            dominantBaseline="middle"
-        >
-            {pieceSymbol}
-        </text>
+        <image
+            x={x - 20}
+            y={y - 20}
+            width="40"
+            height="40"
+            href={imageSrc}
+            className={styles.piece}
+        />
     );
+};
+
+/**
+ * Helper function to get piece image path
+ */
+const getPieceImage = (colorCode, pieceType) => {
+    const colorMap = { 'R': 'w', 'G': 'g', 'B': 'b' };
+    const pieceMap = { 'R': 'rook', 'N': 'knight', 'B': 'bishop', 'Q': 'queen', 'K': 'king', 'P': 'pawn' };
+    
+    const color = colorMap[colorCode];
+    const piece = pieceMap[pieceType];
+    
+    console.log('Piece mapping:', { colorCode, pieceType, color, piece });
+    
+    if (!color || !piece) {
+        console.log('Missing mapping for:', { colorCode, pieceType });
+        return null;
+    }
+    
+    try {
+        return require(`../../../images/${piece}-${color}.png`);
+    } catch (error) {
+        console.error('Failed to load image:', `${piece}-${color}.png`, error);
+        return null;
+    }
 };
 
 /**

@@ -67,7 +67,9 @@ public class GameController {
         if (game == null) {
             this.game = new GameMain();
         }
-        return game.getBoard();
+        Map<String, String> board = game.getBoard();
+        System.out.println("Board state: " + board);
+        return board;
     }
 
 

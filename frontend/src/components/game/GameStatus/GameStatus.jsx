@@ -15,10 +15,17 @@ const GameStatus = ({ currentPlayer }) => {
     const navigate = useNavigate();
     const { players, clearPlayers } = usePlayerContext();
     const { resetGame } = useGameContext();
+    
+    const getKingImage = (colorCode) => {
+        const colorMap = { 'R': 'w', 'G': 'g', 'B': 'b' };
+        const color = colorMap[colorCode];
+        if (!color) return null;
+        return require(`../../../images/king-${color}.png`);
+    };
 
     const colorName = COLOR_MAP[currentPlayer] || 'Unknown';
     const playerName = players[colorName] || 'Unknown';
-    const colorClass = colorName ? colorName.toLowerCase() : 'unknown';
+    const kingImage = getKingImage(currentPlayer);
 
     return (
         <div className={styles.container}>
@@ -27,9 +34,13 @@ const GameStatus = ({ currentPlayer }) => {
                 <p className={styles.label}>Current Player:</p>
                 <div className={styles.playerDisplay}>
                     <p className={styles.playerName}>{playerName}</p>
-                    <span className={`${styles.kingIcon} ${styles[colorClass]}`}>
-            ■
-          </span>
+                    {kingImage && (
+                        <img 
+                            src={kingImage} 
+                            alt={`${colorName} King`}
+                            className={styles.kingIcon}
+                        />
+                    )}
                 </div>
             </div>
             <div className={styles.actions}>

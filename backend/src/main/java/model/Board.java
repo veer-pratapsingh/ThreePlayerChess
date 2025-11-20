@@ -76,20 +76,13 @@ public class Board {
         Position kingStartingPosition = Position.get(colour,0,4);
         boardMap.put(kingStartingPosition, PieceFactory.createPiece("King",colour));
 
-        // place PAWN
-        for(int i = 1; i<7; i++){
+        // place PAWN - including positions A2 and H2 (columns 0 and 7)
+        for(int i = 0; i<8; i++){
             Position ithPawnPosition = Position.get(colour,1,i);
-            boardMap.put(ithPawnPosition, PieceFactory.createPiece("Pawn",colour));
+            BasePiece pawn = PieceFactory.createPiece("Pawn",colour);
+            boardMap.put(ithPawnPosition, pawn);
+            System.out.println("Placed pawn at: " + ithPawnPosition + " = " + pawn.toString());
         }
-
-        // place JESTER
-        Position jesterStartPosition = Position.get(colour,1,0);
-        boardMap.put(jesterStartPosition, PieceFactory.createPiece("Jester",colour));
-
-        // place WALL
-        Position wallStartPosition = Position.get(colour, 1, 7);
-        BasePiece wall = PieceFactory.createPiece("Wall",colour);
-        boardMap.put(wallStartPosition, wall);
     }
 
      /**

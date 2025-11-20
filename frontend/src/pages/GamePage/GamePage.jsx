@@ -28,6 +28,7 @@ const GamePage = () => {
     // Initialize game on mount
     useEffect(() => {
         initializeGame();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // Handle API errors
